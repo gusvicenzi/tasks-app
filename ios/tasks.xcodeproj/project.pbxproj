@@ -78,6 +78,8 @@
 		5AFCE3BB141241B2900CC94D /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		E122A086C4464459A3161C50 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		E65BA90E50C7478D8EE36655 /* Lato.ttf */ = {isa = PBXFileReference; name = "Lato.ttf"; path = "../assets/fonts/Lato.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7686EEB4D8AF4CEE9ABED205 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; name = "OpenSans-Regular.ttf"; path = "../assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		181DC0685C8D4818B1486A81 /* OpenSans_Regular.ttf */ = {isa = PBXFileReference; name = "OpenSans_Regular.ttf"; path = "../assets/fonts/OpenSans_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +205,8 @@
 				5AFCE3BB141241B2900CC94D /* SimpleLineIcons.ttf */,
 				E122A086C4464459A3161C50 /* Zocial.ttf */,
 				E65BA90E50C7478D8EE36655 /* Lato.ttf */,
+				7686EEB4D8AF4CEE9ABED205 /* OpenSans-Regular.ttf */,
+				181DC0685C8D4818B1486A81 /* OpenSans_Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -321,6 +325,8 @@
 				37373C24F4FE404A91411FD3 /* SimpleLineIcons.ttf in Resources */,
 				5D0D646DE15B4165B11D1509 /* Zocial.ttf in Resources */,
 				A12DB9AB2FE843D6B37E0FED /* Lato.ttf in Resources */,
+				1492E58C9F8546A9BB52F833 /* OpenSans-Regular.ttf in Resources */,
+				F3097BFE269349E3A7B19FDF /* OpenSans_Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
