@@ -1,28 +1,63 @@
 import React, { Component } from 'react'
-import { ImageBackground, Text, View, StyleSheet, FlatList } from 'react-native'
+import {
+  ImageBackground,
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Platform,
+} from 'react-native'
 
 import commomStyles from '../commomStyles'
 import todayImage from '../../assets/imgs/today.jpg'
+
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
 
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import Task from '../components/Task'
 export default class TaskList extends Component {
   state = {
+    showDoneTasks: true,
+    visibleTasks: [],
     tasks: [
       {
         id: Math.random(),
         desc: 'Comprar livro de react native',
-        estimateAt: new Date(),
+        estimateAt: new Date(2022, 5, 18),
         doneAt: new Date(),
       },
       {
         id: Math.random(),
         desc: 'Ler livro de react native',
-        estimateAt: new Date(),
+        estimateAt: new Date(2022, 6, 28),
         doneAt: null,
       },
     ],
+  }
+  // Life cicle method. Update filterTasks when the component did mount
+  componentDidMount = () => {
+    this.filterTasks()
+  }
+
+  toggleFilter = () => {
+    this.setState(
+      { showDoneTasks: !this.state.showDoneTasks },
+      this.filterTasks
+    )
+    // Update visible tasks (filterTasks) passing this.filterTasks as a callback fnc when the state changes
+  }
+
+  filterTasks = () => {
+    let visibleTasks = null
+    if (this.state.showDoneTasks) {
+      visibleTasks = [...this.state.tasks]
+    } else {
+      const pending = task => task.doneAt === null
+      visibleTasks = this.state.tasks.filter(pending)
+    }
+    this.setState({ visibleTasks })
   }
 
   toggleTask = taskId => {
@@ -33,7 +68,7 @@ export default class TaskList extends Component {
       }
     })
 
-    this.setState({ tasks })
+    this.setState({ tasks }, this.filterTasks)
   }
 
   render() {
@@ -43,6 +78,15 @@ export default class TaskList extends Component {
         <ImageBackground
           style={styles.background}
           source={todayImage}>
+          <View style={styles.iconBar}>
+            <TouchableOpacity onPress={this.toggleFilter}>
+              <FontAwesomeIcon
+                name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
+                size={20}
+                color={commomStyles.colors.secondary}
+              />
+            </TouchableOpacity>
+          </View>
           <View style={styles.titleBar}>
             <Text style={styles.title}>Hoje</Text>
             <Text style={styles.subtitle}>{today}</Text>
@@ -50,7 +94,7 @@ export default class TaskList extends Component {
         </ImageBackground>
         <View style={styles.taskList}>
           <FlatList
-            data={this.state.tasks}
+            data={this.state.visibleTasks}
             keyExtractor={item => `${item.id}`}
             renderItem={({ item }) => (
               <Task
@@ -67,16 +111,16 @@ export default class TaskList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
   },
   background: {
-    flexGrow: 3,
+    flex: 3,
   },
   taskList: {
-    flexGrow: 7,
+    flex: 7,
   },
   titleBar: {
-    flexGrow: 1,
+    flex: 1,
     justifyContent: 'flex-end',
   },
   title: {
@@ -92,5 +136,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 20,
     marginBottom: 30,
+  },
+  iconBar: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginHorizontal: 20,
+    marginTop: Platform.OS === 'ios' ? 40 : 10,
   },
 })
