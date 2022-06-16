@@ -22,92 +22,20 @@ export default class TaskList extends Component {
         estimateAt: new Date(),
         doneAt: null,
       },
-      {
-        id: Math.random(),
-        desc: 'Comprar livro de react native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Ler livro de react native',
-        estimateAt: new Date(),
-        doneAt: null,
-      },
-      {
-        id: Math.random(),
-        desc: 'Comprar livro de react native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Ler livro de react native',
-        estimateAt: new Date(),
-        doneAt: null,
-      },
-      {
-        id: Math.random(),
-        desc: 'Comprar livro de react native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Ler livro de react native',
-        estimateAt: new Date(),
-        doneAt: null,
-      },
-      {
-        id: Math.random(),
-        desc: 'Comprar livro de react native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Ler livro de react native',
-        estimateAt: new Date(),
-        doneAt: null,
-      },
-      {
-        id: Math.random(),
-        desc: 'Comprar livro de react native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Ler livro de react native',
-        estimateAt: new Date(),
-        doneAt: null,
-      },
-      {
-        id: Math.random(),
-        desc: 'Comprar livro de react native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Ler livro de react native',
-        estimateAt: new Date(),
-        doneAt: null,
-      },
-      {
-        id: Math.random(),
-        desc: 'Comprar livro de react native',
-        estimateAt: new Date(),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Ler livro de react native',
-        estimateAt: new Date(),
-        doneAt: null,
-      },
     ],
   }
+
+  toggleTask = taskId => {
+    const tasks = [...this.state.tasks]
+    tasks.forEach(task => {
+      if (task.id === taskId) {
+        task.doneAt = task.doneAt ? null : new Date()
+      }
+    })
+
+    this.setState({ tasks })
+  }
+
   render() {
     const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
     return (
@@ -124,7 +52,12 @@ export default class TaskList extends Component {
           <FlatList
             data={this.state.tasks}
             keyExtractor={item => `${item.id}`}
-            renderItem={({ item }) => <Task {...item} />}
+            renderItem={({ item }) => (
+              <Task
+                {...item}
+                toggleTask={this.toggleTask}
+              />
+            )}
           />
         </View>
       </View>
