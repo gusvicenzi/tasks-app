@@ -21,7 +21,7 @@ import AddTask from './AddTask'
 export default class TaskList extends Component {
   state = {
     showDoneTasks: true,
-    showAddTask: true,
+    showAddTask: false,
     visibleTasks: [],
     tasks: [
       {
@@ -110,6 +110,16 @@ export default class TaskList extends Component {
             )}
           />
         </View>
+        <TouchableOpacity
+          style={styles.addButtom}
+          onPress={() => this.setState({ showAddTask: true })}
+          activeOpacity={0.7}>
+          <FontAwesomeIcon
+            name="plus"
+            size={20}
+            color={commomStyles.colors.secondary}
+          />
+        </TouchableOpacity>
       </View>
     )
   }
@@ -148,5 +158,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginHorizontal: 20,
     marginTop: Platform.OS === 'ios' ? 40 : 10,
+  },
+  addButtom: {
+    position: 'absolute',
+    right: 30,
+    bottom: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: commomStyles.colors.today,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
