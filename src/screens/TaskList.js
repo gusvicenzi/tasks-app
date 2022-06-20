@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Platform,
+  Alert,
 } from 'react-native'
 
 import commomStyles from '../commomStyles'
@@ -73,6 +74,22 @@ export default class TaskList extends Component {
     this.setState({ tasks }, this.filterTasks)
   }
 
+  addTask = newTask => {
+    if (!newTask.desc || !newTask.desc.trim()) {
+      Alert.alert('Dados inválidos', 'Descrição não informada')
+      return
+    }
+    const tasks = [...this.state.tasks]
+    tasks.push({
+      id: Math.random,
+      desc: newTask.desc,
+      estimateAt: newTask.date,
+      doneAt: null,
+    })
+
+    this.setState({ tasks, showAddTask: false }, this.filterTasks)
+  }
+
   render() {
     const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
     return (
@@ -80,6 +97,7 @@ export default class TaskList extends Component {
         <AddTask
           onCancel={() => this.setState({ showAddTask: false })}
           isVisible={this.state.showAddTask}
+          onSave={this.addTask}
         />
         <ImageBackground
           style={styles.background}
