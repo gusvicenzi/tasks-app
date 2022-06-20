@@ -24,7 +24,7 @@ export default class AddTask extends Component {
   getDatePicker = () => {
     let datePicker = (
       <DateTimePicker
-        value={this.state.date}
+        value={this.state.date || new Date()}
         onChange={(event, date) =>
           this.setState({ date, showDatePicker: false })
         }
