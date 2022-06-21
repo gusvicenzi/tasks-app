@@ -90,6 +90,11 @@ export default class TaskList extends Component {
     this.setState({ tasks, showAddTask: false }, this.filterTasks)
   }
 
+  deleteTask = taskId => {
+    const tasks = this.state.tasks.filter(task => task.id !== taskId)
+    this.setState({ tasks }, this.filterTasks)
+  }
+
   render() {
     const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
     return (
@@ -123,7 +128,8 @@ export default class TaskList extends Component {
             renderItem={({ item }) => (
               <Task
                 {...item}
-                toggleTask={this.toggleTask}
+                onToggleTask={this.toggleTask}
+                onDelete={this.deleteTask}
               />
             )}
           />
