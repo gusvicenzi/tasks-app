@@ -4,14 +4,15 @@ import {
   Text,
   StyleSheet,
   View,
-  TextInput,
   TouchableOpacity,
-  Platform,
   Alert,
 } from 'react-native'
 import commonStyles from '../commonStyles'
 
 import bgImg from '../../assets/imgs/login.jpg'
+import AuthInput from '../components/AuthInput'
+
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
 
 export default class Auth extends Component {
   state = {
@@ -41,20 +42,23 @@ export default class Auth extends Component {
             {this.state.stageNew ? 'Crie a sua conta' : 'Informe seus dados'}
           </Text>
           {this.state.stageNew && (
-            <TextInput
+            <AuthInput
+              icon="user"
               placeholder="Nome"
               value={this.state.name}
               style={styles.input}
               onChangeText={name => this.setState({ name })}
             />
           )}
-          <TextInput
+          <AuthInput
+            icon="at"
             placeholder="E-mail"
             value={this.state.email}
             style={styles.input}
             onChangeText={email => this.setState({ email })}
           />
-          <TextInput
+          <AuthInput
+            icon="key"
             placeholder="Senha"
             value={this.state.password}
             style={styles.input}
@@ -62,7 +66,8 @@ export default class Auth extends Component {
             secureTextEntry={true}
           />
           {this.state.stageNew && (
-            <TextInput
+            <AuthInput
+              icon="key"
               placeholder="Confirmar senha"
               value={this.state.confirmPassword}
               style={styles.input}
@@ -74,6 +79,13 @@ export default class Auth extends Component {
           )}
           <TouchableOpacity onPress={this.signinOrSignup}>
             <View style={styles.button}>
+              <FontAwesomeIcon
+                name="sign-in-alt"
+                size={20}
+                color="#FFF"
+                style={styles.buttonIcon}
+                solid
+              />
               <Text style={styles.buttonText}>
                 {this.state.stageNew ? 'Registrar' : 'Entrar'}
               </Text>
@@ -118,17 +130,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     padding: 20,
     width: '90%',
+    borderRadius: 8,
   },
   input: {
     marginTop: 10,
     backgroundColor: '#FFF',
-    padding: Platform.OS == 'ios' ? 15 : 10,
   },
   button: {
+    flexDirection: 'row',
     backgroundColor: '#080',
     marginTop: 10,
     padding: 10,
     alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  buttonIcon: {
+    marginRight: 10,
   },
   buttonText: {
     fontFamily: commonStyles.fontFamily,
