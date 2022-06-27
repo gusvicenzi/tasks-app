@@ -12,7 +12,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import moment from 'moment'
 import 'moment/locale/pt-br'
-import commomStyles from '../commomStyles'
+import commonStyles from '../commonStyles'
 
 export default props => {
   const doneOrNotStyle =
@@ -99,13 +99,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   desc: {
-    fontFamily: commomStyles.fontFamily,
-    color: commomStyles.colors.mainText,
+    fontFamily: commonStyles.fontFamily,
+    color: commonStyles.colors.mainText,
     fontSize: 15,
   },
   date: {
-    fontFamily: commomStyles.fontFamily,
-    color: commomStyles.colors.subText,
+    fontFamily: commonStyles.fontFamily,
+    color: commonStyles.colors.subText,
   },
   right: {
     backgroundColor: 'red',

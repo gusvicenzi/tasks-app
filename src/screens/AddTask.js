@@ -12,7 +12,7 @@ import {
 
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
-import commomStyles from '../commomStyles'
+import commonStyles from '../commonStyles'
 
 const initialState = { desc: '', date: new Date(), showDatePicker: false }
 
@@ -104,15 +104,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   header: {
-    fontFamily: commomStyles.fontFamily,
-    backgroundColor: commomStyles.colors.today,
-    color: commomStyles.colors.secondary,
+    fontFamily: commonStyles.fontFamily,
+    backgroundColor: commonStyles.colors.today,
+    color: commonStyles.colors.secondary,
     textAlign: 'center',
     padding: 15,
     fontSize: 18,
   },
   input: {
-    fontFamily: commomStyles.fontFamily,
+    fontFamily: commonStyles.fontFamily,
     height: 40,
     margin: 15,
     backgroundColor: '#FFF',
@@ -127,10 +127,10 @@ const styles = StyleSheet.create({
   button: {
     margin: 20,
     marginRight: 30,
-    color: commomStyles.colors.today,
+    color: commonStyles.colors.today,
   },
   date: {
-    fontFamily: commomStyles.fontFamily,
+    fontFamily: commonStyles.fontFamily,
     fontSize: 20,
     marginLeft: 15,
   },

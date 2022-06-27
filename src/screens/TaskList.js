@@ -10,38 +10,33 @@ import {
   Alert,
 } from 'react-native'
 
-import commomStyles from '../commomStyles'
-import todayImage from '../../assets/imgs/today.jpg'
-
+import AsyncStorage from '@react-native-community/async-storage'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
+
+import commonStyles from '../commonStyles'
+import todayImage from '../../assets/imgs/today.jpg'
 
 import moment from 'moment'
 import 'moment/locale/pt-br'
 import Task from '../components/Task'
 import AddTask from './AddTask'
+
+const initialState = {
+  showDoneTasks: true,
+  showAddTask: false,
+  visibleTasks: [],
+  tasks: [],
+}
+
 export default class TaskList extends Component {
   state = {
-    showDoneTasks: true,
-    showAddTask: false,
-    visibleTasks: [],
-    tasks: [
-      {
-        id: Math.random(),
-        desc: 'Comprar livro de react native',
-        estimateAt: new Date(2022, 5, 18),
-        doneAt: new Date(),
-      },
-      {
-        id: Math.random(),
-        desc: 'Ler livro de react native',
-        estimateAt: new Date(2022, 6, 28),
-        doneAt: null,
-      },
-    ],
+    ...initialState,
   }
   // Life cicle method. Update filterTasks when the component did mount
-  componentDidMount = () => {
-    this.filterTasks()
+  componentDidMount = async () => {
+    const stateString = await AsyncStorage.getItem('tasksState')
+    const state = JSON.parse(stateString) || initialState
+    this.setState(state, this.filterTasks)
   }
 
   toggleFilter = () => {
@@ -61,6 +56,7 @@ export default class TaskList extends Component {
       visibleTasks = this.state.tasks.filter(pending)
     }
     this.setState({ visibleTasks })
+    AsyncStorage.setItem('tasksState', JSON.stringify(this.state)) // Record the state no async storage
   }
 
   toggleTask = taskId => {
@@ -112,7 +108,7 @@ export default class TaskList extends Component {
               <FontAwesomeIcon
                 name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
                 size={20}
-                color={commomStyles.colors.secondary}
+                color={commonStyles.colors.secondary}
               />
             </TouchableOpacity>
           </View>
@@ -141,7 +137,7 @@ export default class TaskList extends Component {
           <FontAwesomeIcon
             name="plus"
             size={20}
-            color={commomStyles.colors.secondary}
+            color={commonStyles.colors.secondary}
           />
         </TouchableOpacity>
       </View>
@@ -164,15 +160,15 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   title: {
-    fontFamily: commomStyles.fontFamily,
-    color: commomStyles.colors.secondary,
+    fontFamily: commonStyles.fontFamily,
+    color: commonStyles.colors.secondary,
     fontSize: 50,
     marginLeft: 20,
     marginBottom: 20,
   },
   subtitle: {
-    fontFamily: commomStyles.fontFamily,
-    color: commomStyles.colors.secondary,
+    fontFamily: commonStyles.fontFamily,
+    color: commonStyles.colors.secondary,
     fontSize: 20,
     marginLeft: 20,
     marginBottom: 30,
@@ -190,7 +186,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: commomStyles.colors.today,
+    backgroundColor: commonStyles.colors.today,
     alignItems: 'center',
     justifyContent: 'center',
   },
