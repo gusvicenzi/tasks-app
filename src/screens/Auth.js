@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native'
+
+import axios from 'axios'
+
 import commonStyles from '../commonStyles'
 
 import bgImg from '../../assets/imgs/login.jpg'
@@ -14,20 +17,42 @@ import AuthInput from '../components/AuthInput'
 
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
 
+import { server, showError, showSuccess } from '../common'
+
+const initialState = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  stageNew: false,
+}
 export default class Auth extends Component {
   state = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    stageNew: false,
+    ...initialState,
   }
 
   signinOrSignup = () => {
     if (this.state.stageNew) {
-      Alert.alert('Sucesso!', 'Criar conta')
+      this.signUp()
     } else {
       Alert.alert('Sucesso!', 'Logar')
+    }
+  }
+
+  signUp = async () => {
+    try {
+      await axios.post(`${server}/signup`, {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword,
+      })
+
+      showSuccess('Usuário castrado!')
+      const email = this.state.email
+      this.setState({ ...initialState, email })
+    } catch (e) {
+      showError(e)
     }
   }
 
