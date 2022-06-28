@@ -15,8 +15,12 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
 import axios from 'axios'
 
 import { server, showError } from '../common'
+
 import commonStyles from '../commonStyles'
 import todayImage from '../../assets/imgs/today.jpg'
+import tomorrowImage from '../../assets/imgs/tomorrow.jpg'
+import weekImage from '../../assets/imgs/week.jpg'
+import monthImage from '../../assets/imgs/month.jpg'
 
 import moment from 'moment'
 import 'moment/locale/pt-br'
@@ -49,7 +53,9 @@ export default class TaskList extends Component {
 
   loadTasks = async () => {
     try {
-      const maxDate = moment().format('YYYY-MM-DD 23:59:59')
+      const maxDate = moment()
+        .add({ days: this.props.daysAhead })
+        .format('YYYY-MM-DD 23:59:59')
       const res = await axios.get(`${server}/tasks?date=${maxDate}`)
       this.setState({ tasks: res.data }, this.filterTasks)
     } catch (e) {
@@ -118,6 +124,19 @@ export default class TaskList extends Component {
     }
   }
 
+  getImageAndColor = () => {
+    switch (this.props.daysAhead) {
+      case 0:
+        return [todayImage, commonStyles.colors.today]
+      case 1:
+        return [tomorrowImage, commonStyles.colors.tomorrow]
+      case 7:
+        return [weekImage, commonStyles.colors.week]
+      default:
+        return [monthImage, commonStyles.colors.month]
+    }
+  }
+
   render() {
     const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
     return (
@@ -129,8 +148,16 @@ export default class TaskList extends Component {
         />
         <ImageBackground
           style={styles.background}
-          source={todayImage}>
+          source={this.getImageAndColor()[0]}>
           <View style={styles.iconBar}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.openDrawer()}>
+              <FontAwesomeIcon
+                name="bars"
+                size={20}
+                color={commonStyles.colors.secondary}
+              />
+            </TouchableOpacity>
             <TouchableOpacity onPress={this.toggleFilter}>
               <FontAwesomeIcon
                 name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
@@ -140,7 +167,7 @@ export default class TaskList extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.titleBar}>
-            <Text style={styles.title}>Hoje</Text>
+            <Text style={styles.title}>{this.props.title}</Text>
             <Text style={styles.subtitle}>{today}</Text>
           </View>
         </ImageBackground>
@@ -158,7 +185,10 @@ export default class TaskList extends Component {
           />
         </View>
         <TouchableOpacity
-          style={styles.addButtom}
+          style={[
+            styles.addButtom,
+            { backgroundColor: this.getImageAndColor()[1] },
+          ]}
           onPress={() => this.setState({ showAddTask: true })}
           activeOpacity={0.7}>
           <FontAwesomeIcon
@@ -202,7 +232,7 @@ const styles = StyleSheet.create({
   },
   iconBar: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     marginHorizontal: 20,
     marginTop: Platform.OS === 'ios' ? 40 : 10,
   },
@@ -213,7 +243,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: commonStyles.colors.today,
     alignItems: 'center',
     justifyContent: 'center',
   },
