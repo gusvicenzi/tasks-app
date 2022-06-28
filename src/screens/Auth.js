@@ -18,6 +18,8 @@ import AuthInput from '../components/AuthInput'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
 
 import { server, showError, showSuccess } from '../common'
+import { CommonActions } from '@react-navigation/native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 const initialState = {
   name: '',
@@ -35,7 +37,7 @@ export default class Auth extends Component {
     if (this.state.stageNew) {
       this.signUp()
     } else {
-      Alert.alert('Sucesso!', 'Logar')
+      this.signIn()
     }
   }
 
@@ -56,7 +58,34 @@ export default class Auth extends Component {
     }
   }
 
+  signIn = async () => {
+    try {
+      const res = await axios.post(`${server}/signin`, {
+        email: this.state.email,
+        password: this.state.password,
+      })
+
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `bearer ${res.data.token}`
+      this.props.navigation.navigate('Home')
+    } catch (e) {
+      showError(e)
+    }
+  }
+
   render() {
+    const validations = []
+    validations.push(this.state.email && this.state.email.includes('@'))
+    validations.push(this.state.password && this.state.password.length >= 6)
+
+    if (this.state.stageNew) {
+      validations.push(this.state.name && this.state.name.trim().length >= 3)
+      validations.push(this.state.password === this.state.confirmPassword)
+    }
+
+    const validForm = validations.reduce((total, current) => total && current)
+
     return (
       <ImageBackground
         source={bgImg}
@@ -102,8 +131,14 @@ export default class Auth extends Component {
               secureTextEntry={true}
             />
           )}
-          <TouchableOpacity onPress={this.signinOrSignup}>
-            <View style={styles.button}>
+          <TouchableOpacity
+            onPress={this.signinOrSignup}
+            disabled={!validForm}>
+            <View
+              style={[
+                styles.button,
+                validForm ? {} : { backgroundColor: '#AAA' },
+              ]}>
               <FontAwesomeIcon
                 name="sign-in-alt"
                 size={20}
