@@ -1,5 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native'
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -7,7 +13,16 @@ import {
 import { Gravatar } from 'react-native-gravatar'
 import commonStyles from '../commonStyles'
 
+import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage'
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5'
+
 export default props => {
+  const logout = () => {
+    delete axios.defaults.headers.common['Authorization']
+    AsyncStorage.removeItem('userData')
+    props.navigation.navigate('Auth')
+  }
   return (
     <DrawerContentScrollView>
       <SafeAreaView>
@@ -24,6 +39,18 @@ export default props => {
             <Text style={styles.name}>{props.name}</Text>
             <Text style={styles.email}>{props.email}</Text>
           </View>
+          <TouchableOpacity onPress={logout}>
+            <View style={styles.logout}>
+              <FontAwesomeIcon
+                name="sign-out-alt"
+                solid
+                size={30}
+                color="#800"
+                style={{ marginRight: 10 }}
+              />
+              <Text>Logout</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <DrawerItemList {...props} />
       </SafeAreaView>
@@ -61,5 +88,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: commonStyles.colors.subText,
     marginBottom: 5,
+  },
+  logout: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+    marginBottom: 10,
   },
 })

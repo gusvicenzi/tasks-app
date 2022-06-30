@@ -23,8 +23,8 @@ import { CommonActions } from '@react-navigation/native'
 
 const initialState = {
   name: '',
-  email: '',
-  password: '',
+  email: 'gusvicenzi12@gmail.com',
+  password: '123456',
   confirmPassword: '',
   stageNew: false,
 }
@@ -70,17 +70,6 @@ export default class Auth extends Component {
         'Authorization'
       ] = `bearer ${res.data.token}`
       this.props.navigation.navigate('Home', res.data)
-      // this.props.navigation.dispatch(
-      //   CommonActions.reset({
-      //     index: 0,
-      //     routes: [
-      //       {
-      //         name: 'Home',
-      //         params: res.data,
-      //       },
-      //     ],
-      //   })
-      // )
     } catch (e) {
       showError(e)
     }
