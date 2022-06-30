@@ -68,7 +68,18 @@ export default class Auth extends Component {
       axios.defaults.headers.common[
         'Authorization'
       ] = `bearer ${res.data.token}`
-      this.props.navigation.navigate('Home')
+      this.props.navigation.navigate('Home', res.data)
+      // this.props.navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 0,
+      //     routes: [
+      //       {
+      //         name: 'Home',
+      //         params: res.data,
+      //       },
+      //     ],
+      //   })
+      // )
     } catch (e) {
       showError(e)
     }
