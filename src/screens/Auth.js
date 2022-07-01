@@ -23,8 +23,8 @@ import { CommonActions } from '@react-navigation/native'
 
 const initialState = {
   name: '',
-  email: 'gusvicenzi12@gmail.com',
-  password: '123456',
+  email: '',
+  password: '',
   confirmPassword: '',
   stageNew: false,
 }

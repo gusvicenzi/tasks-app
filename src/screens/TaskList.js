@@ -30,6 +30,8 @@ import AddTask from './AddTask'
 const initialState = {
   showDoneTasks: true,
   showAddTask: false,
+  showEditTask: false,
+  selectedTaskId: null,
   visibleTasks: [],
   tasks: [],
 }
@@ -124,6 +126,29 @@ export default class TaskList extends Component {
     }
   }
 
+  saveEditTask = async newTask => {
+    const taskId = this.state.selectedTaskId
+    if (!newTask.desc || !newTask.desc.trim()) {
+      Alert.alert('Dados inválidos', 'Descrição não informada')
+      return
+    }
+    try {
+      await axios.patch(`${server}/tasks/${taskId}/update`, {
+        desc: newTask.desc,
+        estimateAt: newTask.date,
+      })
+
+      this.setState({ showEditTask: false }, this.loadTasks)
+    } catch (e) {
+      showError(e)
+    }
+  }
+
+  editTask = async taskId => {
+    this.setState({ showEditTask: true, selectedTaskId: taskId })
+    // this.saveEditTask(taskId)
+  }
+
   getImageAndColor = () => {
     switch (this.props.daysAhead) {
       case 0:
@@ -145,6 +170,17 @@ export default class TaskList extends Component {
           onCancel={() => this.setState({ showAddTask: false })}
           isVisible={this.state.showAddTask}
           onSave={this.addTask}
+          title="Nova tarefa"
+        />
+        <AddTask
+          onCancel={() => this.setState({ showEditTask: false })}
+          isVisible={this.state.showEditTask}
+          onSave={this.saveEditTask}
+          title="Editar tarefa"
+          // value={
+          //   this.state.tasks.find(task => task.id === this.state.selectedTaskId)
+          //     .desc
+          // }
         />
         <ImageBackground
           style={styles.background}
@@ -180,6 +216,8 @@ export default class TaskList extends Component {
                 {...item}
                 onToggleTask={this.toggleTask}
                 onDelete={this.deleteTask}
+                onEdit={this.editTask}
+                // showEditModal={() => this.setState({ showEditTask: true })}
               />
             )}
           />

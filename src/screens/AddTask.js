@@ -19,6 +19,7 @@ const initialState = { desc: '', date: new Date(), showDatePicker: false }
 export default class AddTask extends Component {
   state = {
     ...initialState,
+    // desc: this.props.value,
   }
 
   save = () => {
@@ -70,7 +71,7 @@ export default class AddTask extends Component {
           <View style={styles.background}></View>
         </TouchableWithoutFeedback>
         <View style={styles.container}>
-          <Text style={styles.header}>Nova Tarefa</Text>
+          <Text style={styles.header}>{this.props.title}</Text>
           <TextInput
             style={styles.input}
             placeholder="Informe a descrição..."

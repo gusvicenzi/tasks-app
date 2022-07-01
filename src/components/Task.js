@@ -35,10 +35,26 @@ export default props => {
       </TouchableOpacity>
     )
   }
+
+  const getLeftContent = () => {
+    return (
+      <TouchableOpacity
+        style={styles.left}
+        onPress={() => props.onEdit && props.onEdit(props.id)}>
+        <FontAwesomeIcon
+          name="edit"
+          size={30}
+          color="#FFF"
+          solid
+        />
+      </TouchableOpacity>
+    )
+  }
   return (
     <ListItem.Swipeable
       // style={styles.container}
       rightContent={getRightContent}
+      leftContent={getLeftContent}
       animation={{ duration: 500, type: 'timing' }}
       bottomDivider>
       {/* <View style={styles.container}> */}
@@ -114,6 +130,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     minHeight: '100%',
     borderRadius: 2,
-    // paddingHorizontal: 20,
+  },
+  left: {
+    backgroundColor: '#06F',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100%',
+    borderRadius: 2,
   },
 })
